@@ -14,5 +14,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Translator_KMM"
+
 include(":androidApp")
 include(":shared")
