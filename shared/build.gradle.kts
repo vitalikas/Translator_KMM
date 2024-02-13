@@ -3,7 +3,7 @@ plugins {
     kotlin("native.cocoapods")
     id("com.android.library")
     kotlin("plugin.serialization") version Deps.kotlinVersion
-    id("com.squareup.sqldelight")
+    id("app.cash.sqldelight") version Deps.sqlDelightVersion
 }
 
 kotlin {
@@ -53,7 +53,7 @@ kotlin {
                 implementation(Deps.sqlDelightAndroidDriver)
             }
         }
-        val androidTest by getting
+//        val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -85,5 +85,13 @@ android {
     compileSdk = 33
     defaultConfig {
         minSdk = 24
+    }
+}
+
+sqldelight {
+    databases {
+        create("TranslateDatabase") {
+            packageName.set("lt.vitalijus.translator_kmm")
+        }
     }
 }
