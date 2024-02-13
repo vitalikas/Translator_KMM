@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -22,7 +24,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Deps.composeVersion
     }
-    packagingOptions {
+    fun Packaging.() {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
