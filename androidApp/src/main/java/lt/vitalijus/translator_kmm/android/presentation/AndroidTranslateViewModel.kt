@@ -31,5 +31,4 @@ class AndroidTranslateViewModel @Inject constructor(
     fun onEvent(event: TranslateEvent) {
         viewModel.onEvent(event = event)
     }
-
 }
