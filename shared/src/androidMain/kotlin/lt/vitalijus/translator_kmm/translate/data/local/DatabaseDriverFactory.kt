@@ -9,7 +9,6 @@ actual class DatabaseDriverFactory(
     private val context: Context
 ) {
 
-    actual fun create(): SqlDriver {
-        return AndroidSqliteDriver(TranslateDatabase.Schema, context, "translate.db")
-    }
+    actual fun create(): SqlDriver =
+        AndroidSqliteDriver(TranslateDatabase.Schema, context, DatabaseContract.DB_NAME)
 }

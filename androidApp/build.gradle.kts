@@ -1,11 +1,9 @@
-import com.android.build.api.dsl.Packaging
-
 plugins {
     id("com.android.application")
     kotlin("android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
-    kotlin("plugin.serialization") version Deps.kotlinVersion
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -22,9 +20,9 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Deps.composeVersion
+        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
     }
-    fun Packaging.() {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -38,32 +36,35 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
     implementation(project(":shared"))
-    implementation(Deps.composeUi)
-    implementation(Deps.composeUiTooling)
-    implementation(Deps.composeUiToolingPreview)
-    implementation(Deps.composeFoundation)
-    implementation(Deps.composeMaterial)
-    implementation(Deps.activityCompose)
-    implementation(Deps.composeIconsExtended)
-    implementation(Deps.composeNavigation)
-    implementation(Deps.coilCompose)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.navigation)
 
-    implementation(Deps.hiltAndroid)
-    kapt(Deps.hiltAndroidCompiler)
-    kapt(Deps.hiltCompiler)
-    implementation(Deps.hiltNavigationCompose)
+    implementation(libs.coil.compose)
 
-    implementation(Deps.ktorAndroid)
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
+    implementation(libs.dagger.hilt.navigation)
 
-    androidTestImplementation(Deps.testRunner)
-    androidTestImplementation(Deps.jUnit)
-    androidTestImplementation(Deps.composeTesting)
-    debugImplementation(Deps.composeTestManifest)
+    implementation(libs.ktor.client.android)
 
-    kaptAndroidTest(Deps.hiltAndroidCompiler)
-    androidTestImplementation(Deps.hiltTesting)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    kaptAndroidTest(libs.dagger.hilt.compiler)
+    androidTestImplementation(libs.dagger.hilt.test)
 }

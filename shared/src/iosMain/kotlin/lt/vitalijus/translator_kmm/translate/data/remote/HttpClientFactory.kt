@@ -7,11 +7,10 @@ import io.ktor.serialization.kotlinx.json.json
 
 actual class HttpClientFactory {
 
-    actual fun create(): HttpClient {
-        return HttpClient(Darwin) {
+    actual fun create(): HttpClient =
+        HttpClient(Darwin) {
             install(ContentNegotiation) {
                 json()
             }
         }
-    }
 }

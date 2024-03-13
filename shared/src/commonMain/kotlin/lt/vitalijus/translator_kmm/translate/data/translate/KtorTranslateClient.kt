@@ -8,7 +8,7 @@ import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.utils.io.errors.IOException
-import lt.vitalijus.translator_kmm.NetworkConstants
+import lt.vitalijus.translator_kmm.NetworkConstants.BASE_URL
 import lt.vitalijus.translator_kmm.core.domain.language.Language
 import lt.vitalijus.translator_kmm.translate.domain.translate.TranslateClient
 import lt.vitalijus.translator_kmm.translate.domain.translate.TranslateError
@@ -25,7 +25,7 @@ class KtorTranslateClient(
     ): String {
         val result = try {
             httpClient.post {
-                url(NetworkConstants.BASE_URL + "/translate")
+                url("$BASE_URL/translate")
                 contentType(ContentType.Application.Json)
                 setBody(
                     TranslateDto(
@@ -45,6 +45,7 @@ class KtorTranslateClient(
             } catch (e: Exception) {
                 throw TranslateException(TranslateError.SERVER_ERROR)
             }
+
             500 -> throw TranslateException(TranslateError.SERVER_ERROR)
             in 400..499 -> throw TranslateException(TranslateError.CLIENT_ERROR)
             else -> throw TranslateException(TranslateError.UNKNOWN_ERROR)

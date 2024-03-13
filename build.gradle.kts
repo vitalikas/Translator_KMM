@@ -1,22 +1,7 @@
-buildscript {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath(Deps.kotlinGradlePlugin)
-        classpath(Deps.hiltGradlePlugin)
-        classpath(Deps.androidGradle)
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+plugins {
+    alias(libs.plugins.android.application).apply(false)
+    alias(libs.plugins.kotlin.gradle).apply(false)
+    alias(libs.plugins.hilt.gradle).apply(false)
 }
 
 tasks.register("clean", Delete::class) {

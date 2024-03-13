@@ -15,8 +15,8 @@ class SqlDelightHistoryDataSource(
 
     private val queries = db.translateQueries
 
-    override fun getHistory(): CommonFlow<List<HistoryItem>> {
-        return queries
+    override fun getHistory(): CommonFlow<List<HistoryItem>> =
+        queries
             .getHistory()
             .asFlow()
             .map { query ->
@@ -28,7 +28,6 @@ class SqlDelightHistoryDataSource(
                 }
             }
             .toCommonFlow()
-    }
 
     override suspend fun insertHistoryItem(item: HistoryItem) {
         return queries.insertHistoryEntity(

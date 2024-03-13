@@ -6,7 +6,6 @@ import lt.vitalijus.translator_kmm.TranslateDatabase
 
 actual class DatabaseDriverFactory {
 
-    actual fun create(): SqlDriver {
-        return NativeSqliteDriver(TranslateDatabase.Schema, "translate.db")
-    }
+    actual fun create(): SqlDriver =
+        NativeSqliteDriver(TranslateDatabase.Schema, DatabaseContract.DB_NAME)
 }

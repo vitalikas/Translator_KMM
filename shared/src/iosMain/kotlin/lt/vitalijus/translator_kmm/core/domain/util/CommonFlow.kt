@@ -11,10 +11,10 @@ actual open class CommonFlow<T> actual constructor(
 
     fun subscribe(
         coroutineScope: CoroutineScope,
-        dispatcher: CoroutineDispatcher,
+        coroutineDispatcher: CoroutineDispatcher,
         onCollect: (T) -> Unit
     ): DisposableHandle {
-        val job = coroutineScope.launch(dispatcher) {
+        val job = coroutineScope.launch(coroutineDispatcher) {
             flow.collect(onCollect)
         }
         return DisposableHandle { job.cancel() }

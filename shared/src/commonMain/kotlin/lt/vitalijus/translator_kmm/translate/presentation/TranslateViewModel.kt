@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import lt.vitalijus.translator_kmm.core.domain.util.Resource
 import lt.vitalijus.translator_kmm.core.domain.util.toCommonStateFlow
-import lt.vitalijus.translator_kmm.core.presentation.UiLanguage
 import lt.vitalijus.translator_kmm.translate.domain.history.HistoryDataSource
 import lt.vitalijus.translator_kmm.translate.domain.history.Insert
 import lt.vitalijus.translator_kmm.translate.domain.translate.Translate
 import lt.vitalijus.translator_kmm.translate.domain.translate.TranslateException
+import lt.vitalijus.translator_kmm.translate.presentation.history.toUiHistoryItem
 
 class TranslateViewModel(
     private val translate: Translate,
@@ -35,13 +35,7 @@ class TranslateViewModel(
         if (state.history != history) {
             state.copy(
                 history = history.mapNotNull { item ->
-                    UiHistoryItem(
-                        id = item.id ?: return@mapNotNull null,
-                        fromText = item.fromText,
-                        toText = item.toText,
-                        fromLanguage = UiLanguage.byCode(langCode = item.fromLanguageCode),
-                        toLanguage = UiLanguage.byCode(langCode = item.toLanguageCode)
-                    )
+                    item.toUiHistoryItem()
                 }
             )
         } else state
@@ -214,9 +208,14 @@ class TranslateViewModel(
 
                 is Resource.Error -> {
                     _state.update {
+//                        it.copy(
+//                            isTranslating = false,
+//                            error = (result.throwable as? TranslateException)?.error
+//                        )
+
                         it.copy(
                             isTranslating = false,
-                            error = (result.throwable as? TranslateException)?.error
+                            toText = "BLABLABLA"
                         )
                     }
                 }

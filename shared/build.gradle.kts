@@ -1,9 +1,9 @@
 plugins {
+    id("com.android.library")
     kotlin("multiplatform")
     kotlin("native.cocoapods")
-    id("com.android.library")
-    kotlin("plugin.serialization") version Deps.kotlinVersion
-    id("app.cash.sqldelight") version Deps.sqlDelightVersion
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -32,25 +32,25 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Deps.ktorCore)
-                implementation(Deps.ktorSerialization)
-                implementation(Deps.ktorSerializationJson)
-                implementation(Deps.sqlDelightRuntime)
-                implementation(Deps.sqlDelightCoroutinesExtensions)
-                implementation(Deps.kotlinDateTime)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.sqldelight.runtime)
+                implementation(libs.sqldelight.coroutines.extensions)
+                implementation(libs.kotlin.datetime)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(Deps.assertK)
-                implementation(Deps.turbine)
+                implementation(libs.assertk)
+                implementation(libs.turbine)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation(Deps.ktorAndroid)
-                implementation(Deps.sqlDelightAndroidDriver)
+                implementation(libs.ktor.client.android)
+                implementation(libs.sqldelight.android.driver)
             }
         }
 //        val androidTest by getting
@@ -64,8 +64,8 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
 
             dependencies {
-                implementation(Deps.ktorIOS)
-                implementation(Deps.sqlDelightNativeDriver)
+                implementation(libs.ktor.client.ios)
+                implementation(libs.sqldelight.native.driver)
             }
         }
         val iosX64Test by getting
