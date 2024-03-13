@@ -28,7 +28,5 @@ class AndroidTranslateViewModel @Inject constructor(
 
     val state = viewModel.state
 
-    fun onEvent(event: TranslateEvent) {
-        viewModel.onEvent(event = event)
-    }
+    fun onEvent(event: TranslateEvent) = viewModel.onEvent(event = event)
 }
