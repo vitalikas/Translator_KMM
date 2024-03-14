@@ -67,4 +67,7 @@ dependencies {
 
     kaptAndroidTest(libs.dagger.hilt.compiler)
     androidTestImplementation(libs.dagger.hilt.test)
+
+    testImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk)
 }

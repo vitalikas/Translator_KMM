@@ -14,6 +14,7 @@ assertK = "0.25"
 turbine = "0.7.0"
 junit = "4.13.2"
 test-runner = "1.5.1"
+mockk = "1.13.9"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -53,6 +54,7 @@ androidx-test-runner = { module = "androidx.test:runner", version.ref = "test-ru
 androidx-compose-ui-test-junit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-ver" }
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose-ver" }
 dagger-hilt-test = { module = "com.google.dagger:hilt-android-testing", version.ref = "dagger-hilt" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle"}

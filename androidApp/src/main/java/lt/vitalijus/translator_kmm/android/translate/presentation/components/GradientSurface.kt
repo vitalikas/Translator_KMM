@@ -8,7 +8,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
-fun Modifier.gradientModifier(): Modifier = composed {
+fun Modifier.gradientSurface(): Modifier = composed {
     if (isSystemInDarkTheme()) {
         Modifier.background(
             brush = Brush.verticalGradient(

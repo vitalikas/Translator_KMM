@@ -6,8 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import lt.vitalijus.translator_kmm.translate.domain.history.HistoryDataSource
 import lt.vitalijus.translator_kmm.translate.domain.history.Insert
 import lt.vitalijus.translator_kmm.translate.domain.translate.Translate
-import lt.vitalijus.translator_kmm.translate.presentation.TranslateEvent
-import lt.vitalijus.translator_kmm.translate.presentation.TranslateViewModel
+import lt.vitalijus.translator_kmm.translate.presentation.translate.TranslateEvent
+import lt.vitalijus.translator_kmm.translate.presentation.translate.TranslateViewModel
 import javax.inject.Inject
 
 @HiltViewModel

@@ -88,7 +88,6 @@ fun TranslateTextField(
                         fromLanguage = fromLanguage,
                         onCloseClick = onCloseClick
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
                     Divider()
                     ToTextField(
                         toText = toText,
@@ -145,11 +144,11 @@ private fun FromTextField(
     fromLanguage: UiLanguage,
     onCloseClick: () -> Unit
 ) {
-    Column(modifier = Modifier.padding(start = 16.dp)) {
+    Column(modifier = Modifier.padding(16.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Top
         ) {
             LanguageItem(language = fromLanguage)
             IconButton(onClick = onCloseClick) {
@@ -175,7 +174,7 @@ private fun ToTextField(
     onCopyClick: (String) -> Unit,
     onSpeakerClick: () -> Unit
 ) {
-    Column(modifier = Modifier.padding(start = 16.dp)) {
+    Column(modifier = Modifier.padding(16.dp)) {
         LanguageItem(language = toLanguage)
         Spacer(modifier = Modifier.height(16.dp))
         Text(

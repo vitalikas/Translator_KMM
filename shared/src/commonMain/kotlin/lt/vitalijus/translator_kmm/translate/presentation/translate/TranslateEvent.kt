@@ -1,6 +1,7 @@
-package lt.vitalijus.translator_kmm.translate.presentation
+package lt.vitalijus.translator_kmm.translate.presentation.translate
 
 import lt.vitalijus.translator_kmm.core.presentation.UiLanguage
+import lt.vitalijus.translator_kmm.translate.presentation.history.UiHistoryItem
 
 sealed class TranslateEvent {
 

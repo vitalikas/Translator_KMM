@@ -1,4 +1,4 @@
-package lt.vitalijus.translator_kmm.translate.presentation
+package lt.vitalijus.translator_kmm.translate.presentation.history
 
 import lt.vitalijus.translator_kmm.core.presentation.UiLanguage
 

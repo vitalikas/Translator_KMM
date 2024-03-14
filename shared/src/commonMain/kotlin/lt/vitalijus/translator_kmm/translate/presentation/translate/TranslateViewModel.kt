@@ -1,4 +1,4 @@
-package lt.vitalijus.translator_kmm.translate.presentation
+package lt.vitalijus.translator_kmm.translate.presentation.translate
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -208,14 +208,9 @@ class TranslateViewModel(
 
                 is Resource.Error -> {
                     _state.update {
-//                        it.copy(
-//                            isTranslating = false,
-//                            error = (result.throwable as? TranslateException)?.error
-//                        )
-
                         it.copy(
                             isTranslating = false,
-                            toText = "BLABLABLA"
+                            error = (result.throwable as? TranslateException)?.error
                         )
                     }
                 }
