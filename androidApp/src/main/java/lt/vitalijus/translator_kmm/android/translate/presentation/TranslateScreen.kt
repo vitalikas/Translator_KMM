@@ -3,16 +3,12 @@
 package lt.vitalijus.translator_kmm.android.translate.presentation
 
 import android.speech.tts.TextToSpeech
-import android.speech.tts.UtteranceProgressListener
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FabPosition
@@ -23,11 +19,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -38,8 +29,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import lt.vitalijus.translator_kmm.android.R
 import lt.vitalijus.translator_kmm.android.translate.presentation.components.LanguageDropdown
+import lt.vitalijus.translator_kmm.android.translate.presentation.components.LanguageDropdownReverse
 import lt.vitalijus.translator_kmm.android.translate.presentation.components.SwapLanguagesButton
 import lt.vitalijus.translator_kmm.android.translate.presentation.components.TranslateHistoryItem
 import lt.vitalijus.translator_kmm.android.translate.presentation.components.TranslateTextField
@@ -100,10 +93,13 @@ fun TranslateScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                ConstraintLayout(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
                 ) {
+                    val (dropdownStart, swapButton, dropdownEnd) = createRefs()
+
                     LanguageDropdown(
                         language = state.fromLanguage,
                         isOpen = state.isChoosingFromLanguage,
@@ -116,16 +112,26 @@ fun TranslateScreen(
                         onSelectLanguage = { language ->
                             onEvent(TranslateEvent.ChooseFromLanguage(language = language))
                         },
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.constrainAs(dropdownStart) {
+                            start.linkTo(parent.start)
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                        }
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+
                     SwapLanguagesButton(
                         onClick = {
                             onEvent(TranslateEvent.SwapLanguages)
+                        },
+                        modifier = Modifier.constrainAs(swapButton) {
+                            start.linkTo(dropdownStart.start)
+                            end.linkTo(dropdownEnd.end)
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
                         }
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    LanguageDropdown(
+
+                    LanguageDropdownReverse(
                         language = state.toLanguage,
                         isOpen = state.isChoosingToLanguage,
                         onClick = {
@@ -137,7 +143,11 @@ fun TranslateScreen(
                         onSelectLanguage = { language ->
                             onEvent(TranslateEvent.ChooseToLanguage(language = language))
                         },
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.constrainAs(dropdownEnd) {
+                            end.linkTo(parent.end)
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                        }
                     )
                 }
             }
@@ -145,24 +155,7 @@ fun TranslateScreen(
             item {
                 val clipboardManager = LocalClipboardManager.current
                 val keyboardController = LocalSoftwareKeyboardController.current
-                var isSpeaking by remember { mutableStateOf(false) }
-                val tts = rememberTextToSpeech().apply {
-                    setOnUtteranceProgressListener(
-                        object : UtteranceProgressListener() {
-                            override fun onStart(p0: String?) {
-                                isSpeaking = true
-                            }
-
-                            override fun onDone(p0: String?) {
-                                isSpeaking = false
-                            }
-
-                            override fun onError(p0: String?) {
-                                isSpeaking = true
-                            }
-                        }
-                    )
-                }
+                val tts = rememberTextToSpeech()
                 TranslateTextField(
                     fromText = state.fromText,
                     toText = state.toText,

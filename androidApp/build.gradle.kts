@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.compose.navigation)
+    implementation(libs.androidx.compose.constraintlayout)
 
     implementation(libs.coil.compose)
 

@@ -12,11 +12,14 @@ fun rememberTextToSpeech(): TextToSpeech {
     val tts = remember {
         TextToSpeech(context, null)
     }
-    DisposableEffect(key1 = tts) {
-        onDispose {
-            tts.stop()
-            tts.shutdown()
+    return tts.apply {
+        DisposableEffect(key1 = this) {
+            onDispose {
+                with(this@apply) {
+                    stop()
+                    shutdown()
+                }
+            }
         }
     }
-    return tts
 }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.DropdownMenu
@@ -15,10 +14,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import lt.vitalijus.translator_kmm.android.R
@@ -26,7 +23,7 @@ import lt.vitalijus.translator_kmm.android.core.theme.LightBlue
 import lt.vitalijus.translator_kmm.core.presentation.UiLanguage
 
 @Composable
-fun LanguageDropdown(
+fun LanguageDropdownReverse(
     language: UiLanguage,
     isOpen: Boolean,
     onClick: () -> Unit,
@@ -51,20 +48,8 @@ fun LanguageDropdown(
         }
         Row(
             modifier = Modifier
-                .clickable(onClick = onClick)
+                .clickable(onClick = onClick),
         ) {
-            AsyncImage(
-                model = language.drawableRes,
-                contentDescription = language.language.langName,
-                modifier = Modifier.size(30.dp)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = language.language.langName,
-                color = LightBlue,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
             Icon(
                 imageVector = if (isOpen) Icons.Default.ArrowDropUp else Icons.Default.ArrowDropDown,
                 contentDescription = if (isOpen) {
@@ -73,6 +58,16 @@ fun LanguageDropdown(
                     stringResource(id = R.string.open)
                 },
                 tint = LightBlue,
+                modifier = Modifier.size(30.dp)
+            )
+            Text(
+                text = language.language.langName,
+                color = LightBlue
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            AsyncImage(
+                model = language.drawableRes,
+                contentDescription = language.language.langName,
                 modifier = Modifier.size(30.dp)
             )
         }

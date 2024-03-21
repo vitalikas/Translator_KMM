@@ -3,6 +3,7 @@ android-gradle = "8.0.2"
 kotlin-gradle = "1.7.21"
 activity-compose = "1.6.1"
 compose-ver = "1.4.0-alpha02"
+compose-constraintlayout = "1.0.1"
 compose-navigation = "2.5.3"
 coil-compose = "2.1.0"
 kotlin-datetime = "0.4.0"
@@ -25,6 +26,8 @@ androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-ver" }
 androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "compose-ver" }
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-ver" }
+
+androidx-compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "compose-constraintlayout" }
 
 androidx-compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
 
