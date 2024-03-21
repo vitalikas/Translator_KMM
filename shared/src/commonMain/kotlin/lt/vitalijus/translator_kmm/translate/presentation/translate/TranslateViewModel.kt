@@ -10,27 +10,27 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
-import lt.vitalijus.translator_kmm.core.domain.util.Resource
-import lt.vitalijus.translator_kmm.core.domain.util.toCommonStateFlow
-import lt.vitalijus.translator_kmm.translate.domain.history.HistoryDataSource
-import lt.vitalijus.translator_kmm.translate.domain.history.Insert
-import lt.vitalijus.translator_kmm.translate.domain.translate.Translate
-import lt.vitalijus.translator_kmm.translate.domain.translate.TranslateException
+import lt.vitalijus.translator_kmm.core.domain.util.Result
+import lt.vitalijus.translator_kmm.translate.domain.history.GetUsecase
+import lt.vitalijus.translator_kmm.translate.domain.history.InsertUsecase
+import lt.vitalijus.translator_kmm.translate.domain.translate.TranslateUsecase
 import lt.vitalijus.translator_kmm.translate.presentation.history.toUiHistoryItem
 
 class TranslateViewModel(
-    private val translate: Translate,
-    private val insert: Insert,
-    historyDataSource: HistoryDataSource,
+    private val translateUsecase: TranslateUsecase,
+    private val insertUsecase: InsertUsecase,
+    private val getUsecase: GetUsecase,
     coroutineScope: CoroutineScope?
 ) {
 
     private val viewModelScope = coroutineScope ?: CoroutineScope(Dispatchers.Main)
 
+    private var translateJob: Job? = null
+
     private val _state = MutableStateFlow(TranslateState())
     val state = combine(
         _state,
-        historyDataSource.getHistory()
+        getHistoryFlow()
     ) { state, history ->
         if (state.history != history) {
             state.copy(
@@ -45,9 +45,16 @@ class TranslateViewModel(
             SharingStarted.WhileSubscribed(5000),
             TranslateState()
         )
-        .toCommonStateFlow()
 
-    private var translateJob: Job? = null
+    private fun getHistoryFlow() = when (val result = getUsecase()) {
+        is Result.Error -> {
+            throw IllegalStateException()
+        }
+
+        is Result.Success -> {
+            result.data
+        }
+    }
 
     fun onEvent(event: TranslateEvent) {
         when (event) {
@@ -184,18 +191,18 @@ class TranslateViewModel(
             _state.update {
                 it.copy(isTranslating = true)
             }
-            val result = translate.execute(
+            val result = translateUsecase(
                 fromLanguage = state.fromLanguage.language,
                 fromText = state.fromText,
                 toLanguage = state.toLanguage.language
             )
             when (result) {
-                is Resource.Success -> {
-                    insert.execute(
+                is Result.Success -> {
+                    insertUsecase(
                         fromLanguage = state.fromLanguage.language,
                         fromText = state.fromText,
                         toLanguage = state.toLanguage.language,
-                        toText = result.data ?: return@launch
+                        toText = result.data
                     )
 
                     _state.update {
@@ -206,11 +213,11 @@ class TranslateViewModel(
                     }
                 }
 
-                is Resource.Error -> {
+                is Result.Error -> {
                     _state.update {
                         it.copy(
                             isTranslating = false,
-                            error = (result.throwable as? TranslateException)?.error
+                            error = result.error
                         )
                     }
                 }

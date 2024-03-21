@@ -1,7 +1,7 @@
 package lt.vitalijus.translator_kmm.translate.presentation.translate
 
 import lt.vitalijus.translator_kmm.core.presentation.UiLanguage
-import lt.vitalijus.translator_kmm.translate.domain.translate.TranslateError
+import lt.vitalijus.translator_kmm.core.domain.util.TranslateError
 import lt.vitalijus.translator_kmm.translate.presentation.history.UiHistoryItem
 
 data class TranslateState(

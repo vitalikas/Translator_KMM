@@ -13,8 +13,6 @@ import lt.vitalijus.translator_kmm.translate.data.local.DatabaseDriverFactory
 import lt.vitalijus.translator_kmm.translate.data.remote.HttpClientFactory
 import lt.vitalijus.translator_kmm.translate.data.translate.KtorTranslateClient
 import lt.vitalijus.translator_kmm.translate.domain.history.HistoryDataSource
-import lt.vitalijus.translator_kmm.translate.domain.history.Insert
-import lt.vitalijus.translator_kmm.translate.domain.translate.Translate
 import lt.vitalijus.translator_kmm.translate.domain.translate.TranslateClient
 import javax.inject.Singleton
 
@@ -44,16 +42,4 @@ object AppModule {
         driver: SqlDriver
     ): HistoryDataSource =
         SqlDelightHistoryDataSource(db = TranslateDatabase.invoke(driver = driver))
-
-    @Provides
-    @Singleton
-    fun providesTranslate(
-        client: TranslateClient
-    ): Translate = Translate(client = client)
-
-    @Provides
-    @Singleton
-    fun providesInsert(
-        historyDataSource: HistoryDataSource
-    ): Insert = Insert(historyDataSource = historyDataSource)
 }

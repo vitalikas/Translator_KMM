@@ -4,8 +4,10 @@ import lt.vitalijus.translator_kmm.core.domain.util.CommonFlow
 import lt.vitalijus.translator_kmm.core.domain.util.HistoryError
 import lt.vitalijus.translator_kmm.core.domain.util.Result
 
-interface HistoryDataSource {
+class GetUsecase(
+    private val historyDataSource: HistoryDataSource
+) {
 
-    fun getHistory(): Result<CommonFlow<List<HistoryItem>>, HistoryError.GetError>
-    suspend fun insertHistoryItem(item: HistoryItem): Result<Unit, HistoryError.InsertError>
+    operator fun invoke(): Result<CommonFlow<List<HistoryItem>>, HistoryError.GetError> =
+        historyDataSource.getHistory()
 }

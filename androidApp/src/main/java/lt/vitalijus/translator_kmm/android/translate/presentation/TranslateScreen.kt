@@ -44,7 +44,7 @@ import lt.vitalijus.translator_kmm.android.translate.presentation.components.Swa
 import lt.vitalijus.translator_kmm.android.translate.presentation.components.TranslateHistoryItem
 import lt.vitalijus.translator_kmm.android.translate.presentation.components.TranslateTextField
 import lt.vitalijus.translator_kmm.android.translate.presentation.components.rememberTextToSpeech
-import lt.vitalijus.translator_kmm.translate.domain.translate.TranslateError
+import lt.vitalijus.translator_kmm.core.domain.util.TranslateError
 import lt.vitalijus.translator_kmm.translate.presentation.translate.TranslateEvent
 import lt.vitalijus.translator_kmm.translate.presentation.translate.TranslateState
 import java.util.Locale
