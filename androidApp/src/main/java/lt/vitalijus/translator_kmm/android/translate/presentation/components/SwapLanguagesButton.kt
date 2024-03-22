@@ -1,6 +1,7 @@
 package lt.vitalijus.translator_kmm.android.translate.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -10,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import lt.vitalijus.translator_kmm.android.R
 
 @Composable
@@ -24,6 +26,7 @@ fun SwapLanguagesButton(
                 color = MaterialTheme.colors.primary,
                 shape = CircleShape
             )
+            .size(48.dp)
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(id = R.drawable.swap_languages),

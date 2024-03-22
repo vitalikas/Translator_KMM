@@ -184,17 +184,24 @@ fun TranslateScreen(
                     onCloseClick = {
                         onEvent(TranslateEvent.CloseTranslation)
                     },
-                    onSpeakerClick = {
+                    onSpeakerClick = { isSpeak ->
+                        onEvent(TranslateEvent.Speak(isSpeak = isSpeak))
+
                         tts.apply {
-                            language = state.toLanguage.toLocale() ?: Locale.ENGLISH
-                            speak(
-                                state.toText,
-                                TextToSpeech.QUEUE_FLUSH,
-                                null,
-                                null
-                            )
+                            if (isSpeak) {
+                                language = state.toLanguage.toLocale() ?: Locale.ENGLISH
+                                speak(
+                                    state.toText,
+                                    TextToSpeech.QUEUE_FLUSH,
+                                    null,
+                                    null
+                                )
+                            } else {
+                                stop()
+                            }
                         }
                     },
+                    isSpeak = state.isSpeak,
                     onTextFieldClick = {
                         onEvent(TranslateEvent.EditTranslation)
                     },

@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalAnimationApi::class)
+@file:OptIn(ExperimentalAnimationApi::class, ExperimentalAnimationApi::class)
 
 package lt.vitalijus.translator_kmm.android.translate.presentation.components
 
@@ -53,7 +53,8 @@ fun TranslateTextField(
     onTextChange: (String) -> Unit,
     onCopyClick: (String) -> Unit,
     onCloseClick: () -> Unit,
-    onSpeakerClick: () -> Unit,
+    onSpeakerClick: (isSpeak: Boolean) -> Unit,
+    isSpeak: Boolean,
     onTextFieldClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -89,7 +90,8 @@ fun TranslateTextField(
                         toText = toText,
                         toLanguage = toLanguage,
                         onCopyClick = onCopyClick,
-                        onSpeakerClick = onSpeakerClick
+                        onSpeakerClick = onSpeakerClick,
+                        isSpeak = isSpeak
                     )
                 }
             }
@@ -128,16 +130,16 @@ private fun IdleTranslateTextField(
         }
 
         Box(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, bottom = 8.dp, end = 8.dp),
             contentAlignment = Alignment.BottomEnd
         ) {
             ProgressButton(
                 text = stringResource(id = R.string.translate),
                 isLoading = isTranslating,
                 onClick = onTranslateClick,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(top = 16.dp)
+                modifier = Modifier.align(Alignment.BottomEnd)
             )
         }
     }
@@ -177,31 +179,40 @@ private fun ToTextField(
     toText: String,
     toLanguage: UiLanguage,
     onCopyClick: (String) -> Unit,
-    onSpeakerClick: () -> Unit
+    onSpeakerClick: (isSpeak: Boolean) -> Unit,
+    isSpeak: Boolean
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
         LanguageItem(language = toLanguage)
+
         Spacer(modifier = Modifier.height(16.dp))
+
         Text(
             text = toText,
             color = MaterialTheme.colors.onSurface
         )
+
         Spacer(modifier = Modifier.height(16.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            IconButton(onClick = { onCopyClick(toText) }) {
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            IconButton(
+                onClick = {
+                    onCopyClick(toText)
+                }
+            ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.copy),
                     contentDescription = stringResource(id = R.string.copy),
                     tint = LightBlue
                 )
             }
-            IconButton(onClick = onSpeakerClick) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.speaker),
-                    contentDescription = stringResource(id = R.string.play_loud),
-                    tint = LightBlue
-                )
-            }
+            SpeakButton(
+                isSpeak = isSpeak,
+                onClick = onSpeakerClick
+            )
         }
     }
 }

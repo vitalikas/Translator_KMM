@@ -13,5 +13,6 @@ data class TranslateState(
     val isChoosingFromLanguage: Boolean = false,
     val isChoosingToLanguage: Boolean = false,
     val error: TranslateError? = null,
-    val history: List<UiHistoryItem> = emptyList()
+    val history: List<UiHistoryItem> = emptyList(),
+    val isSpeak: Boolean = false
 )

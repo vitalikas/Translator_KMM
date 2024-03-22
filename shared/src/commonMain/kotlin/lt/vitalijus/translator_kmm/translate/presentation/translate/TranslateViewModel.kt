@@ -82,7 +82,7 @@ class TranslateViewModel(
                 translate(state = newState)
             }
 
-            TranslateEvent.CloseTranslation -> {
+            is TranslateEvent.CloseTranslation -> {
                 _state.update {
                     it.copy(
                         isTranslating = false,
@@ -92,7 +92,7 @@ class TranslateViewModel(
                 }
             }
 
-            TranslateEvent.EditTranslation -> {
+            is TranslateEvent.EditTranslation -> {
                 if (state.value.toText != null) {
                     _state.update {
                         it.copy(
@@ -103,7 +103,7 @@ class TranslateViewModel(
                 }
             }
 
-            TranslateEvent.OnErrorSeen -> {
+            is TranslateEvent.OnErrorSeen -> {
                 _state.update {
                     it.copy(
                         error = null
@@ -111,7 +111,7 @@ class TranslateViewModel(
                 }
             }
 
-            TranslateEvent.OpenFromLanguageDropDown -> {
+            is TranslateEvent.OpenFromLanguageDropDown -> {
                 _state.update {
                     it.copy(
                         isChoosingFromLanguage = true
@@ -119,7 +119,7 @@ class TranslateViewModel(
                 }
             }
 
-            TranslateEvent.OpenToLanguageDropDown -> {
+            is TranslateEvent.OpenToLanguageDropDown -> {
                 _state.update {
                     it.copy(
                         isChoosingToLanguage = true
@@ -140,7 +140,7 @@ class TranslateViewModel(
                 }
             }
 
-            TranslateEvent.StopChoosingLanguage -> {
+            is TranslateEvent.StopChoosingLanguage -> {
                 _state.update {
                     it.copy(
                         isChoosingFromLanguage = false,
@@ -159,7 +159,7 @@ class TranslateViewModel(
                 }
             }
 
-            TranslateEvent.SwapLanguages -> {
+            is TranslateEvent.SwapLanguages -> {
                 _state.update {
                     it.copy(
                         fromLanguage = it.toLanguage,
@@ -170,8 +170,16 @@ class TranslateViewModel(
                 }
             }
 
-            TranslateEvent.Translate -> {
+            is TranslateEvent.Translate -> {
                 translate(state = state.value)
+            }
+
+            is TranslateEvent.Speak -> {
+                _state.update {
+                    it.copy(
+                        isSpeak = !it.isSpeak
+                    )
+                }
             }
 
             else -> Unit
