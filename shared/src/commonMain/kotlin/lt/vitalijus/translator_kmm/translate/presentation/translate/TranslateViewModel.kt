@@ -6,6 +6,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
@@ -32,7 +33,7 @@ class TranslateViewModel(
         _state,
         getHistoryFlow()
     ) { state, history ->
-        if (state.history != history) {
+        if (state.history != history && history.isNotEmpty()) {
             state.copy(
                 history = history.mapNotNull { item ->
                     item.toUiHistoryItem()
@@ -47,13 +48,9 @@ class TranslateViewModel(
         )
 
     private fun getHistoryFlow() = when (val result = getUsecase()) {
-        is Result.Error -> {
-            throw IllegalStateException()
-        }
+        is Result.Error -> emptyFlow()
 
-        is Result.Success -> {
-            result.data
-        }
+        is Result.Success -> result.data
     }
 
     fun onEvent(event: TranslateEvent) {

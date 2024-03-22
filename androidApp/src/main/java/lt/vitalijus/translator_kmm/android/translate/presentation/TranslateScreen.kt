@@ -216,8 +216,7 @@ fun TranslateScreen(
                     item = item,
                     onClick = {
                         onEvent(TranslateEvent.SelectHistoryItem(item = item))
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                    }
                 )
             }
         }

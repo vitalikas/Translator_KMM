@@ -24,8 +24,7 @@ import lt.vitalijus.translator_kmm.translate.presentation.history.UiHistoryItem
 @Composable
 fun TranslateHistoryItem(
     item: UiHistoryItem,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onClick: () -> Unit
 ) {
     Column(
         modifier = Modifier

@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -62,8 +60,7 @@ fun TranslateTextField(
     Card(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = onTextFieldClick)
-            .padding(16.dp),
+            .clickable(onClick = onTextFieldClick),
         elevation = 8.dp,
         shape = RoundedCornerShape(8.dp)
     ) {
@@ -76,7 +73,6 @@ fun TranslateTextField(
                     onTranslateClick = onTranslateClick,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(2f)
                         .padding(8.dp)
                 )
             } else {
@@ -111,30 +107,39 @@ private fun IdleTranslateTextField(
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
-    Box(modifier = modifier) {
-        BasicTextField(
-            value = fromText,
-            onValueChange = onTextChange,
-            cursorBrush = SolidColor(MaterialTheme.colors.primary),
-            modifier = Modifier
-                .fillMaxSize()
-                .onFocusChanged { focusState ->
-                    isFocused = focusState.isFocused
-                },
-            textStyle = TextStyle(color = MaterialTheme.colors.onSurface)
-        )
-        if (fromText.isEmpty() && !isFocused) {
-            Text(
-                text = stringResource(id = R.string.enter_a_text_to_translate),
-                color = LightBlue
+    Column(modifier = modifier) {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            BasicTextField(
+                value = fromText,
+                onValueChange = onTextChange,
+                cursorBrush = SolidColor(MaterialTheme.colors.primary),
+                modifier = Modifier
+                    .onFocusChanged { focusState ->
+                        isFocused = focusState.isFocused
+                    },
+                textStyle = TextStyle(color = MaterialTheme.colors.onSurface)
+            )
+            if (fromText.isEmpty() && !isFocused) {
+                Text(
+                    text = stringResource(id = R.string.enter_a_text_to_translate),
+                    color = LightBlue
+                )
+            }
+        }
+
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            ProgressButton(
+                text = stringResource(id = R.string.translate),
+                isLoading = isTranslating,
+                onClick = onTranslateClick,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(top = 16.dp)
             )
         }
-        ProgressButton(
-            text = stringResource(id = R.string.translate),
-            isLoading = isTranslating,
-            onClick = onTranslateClick,
-            modifier = Modifier.align(Alignment.BottomEnd)
-        )
     }
 }
 
