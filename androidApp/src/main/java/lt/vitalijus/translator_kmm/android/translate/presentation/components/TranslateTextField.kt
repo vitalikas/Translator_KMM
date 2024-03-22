@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalAnimationApi::class, ExperimentalAnimationApi::class)
+@file:OptIn(
+    ExperimentalAnimationApi::class, ExperimentalAnimationApi::class
+)
 
 package lt.vitalijus.translator_kmm.android.translate.presentation.components
 
@@ -110,7 +112,7 @@ private fun IdleTranslateTextField(
     var isFocused by remember { mutableStateOf(false) }
 
     Column(modifier = modifier) {
-        Box(modifier = Modifier.fillMaxWidth()) {
+        Box {
             BasicTextField(
                 value = fromText,
                 onValueChange = onTextChange,

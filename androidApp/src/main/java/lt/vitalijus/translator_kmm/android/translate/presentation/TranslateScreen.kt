@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -19,6 +20,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -30,6 +32,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import kotlinx.coroutines.launch
 import lt.vitalijus.translator_kmm.android.R
 import lt.vitalijus.translator_kmm.android.translate.presentation.components.LanguageDropdown
 import lt.vitalijus.translator_kmm.android.translate.presentation.components.LanguageDropdownReverse
@@ -82,7 +85,10 @@ fun TranslateScreen(
         },
         floatingActionButtonPosition = FabPosition.Center
     ) { padding ->
+        val listState = rememberLazyListState()
+        val coroutineScope = rememberCoroutineScope()
         LazyColumn(
+            state = listState,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
@@ -222,6 +228,9 @@ fun TranslateScreen(
                 TranslateHistoryItem(
                     item = item,
                     onClick = {
+                        coroutineScope.launch {
+                            listState.scrollToItem(0)
+                        }
                         onEvent(TranslateEvent.SelectHistoryItem(item = item))
                     }
                 )

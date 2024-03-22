@@ -182,6 +182,14 @@ class TranslateViewModel(
                 }
             }
 
+            is TranslateEvent.ClearText -> {
+                _state.update {
+                    it.copy(
+
+                    )
+                }
+            }
+
             else -> Unit
         }
     }
