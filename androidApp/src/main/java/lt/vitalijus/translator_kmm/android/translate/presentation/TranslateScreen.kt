@@ -81,6 +81,14 @@ fun TranslateScreen(
     ) { padding ->
         val listState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
+        val tts = rememberTextToSpeech(
+            onDispose = {
+                onEvent(TranslateEvent.Speak(isSpeak = false))
+            },
+            onDone = {
+                onEvent(TranslateEvent.Speak(isSpeak = false))
+            }
+        )
         LazyColumn(
             state = listState,
             modifier = Modifier
@@ -155,7 +163,7 @@ fun TranslateScreen(
             item {
                 val clipboardManager = LocalClipboardManager.current
                 val keyboardController = LocalSoftwareKeyboardController.current
-                val tts = rememberTextToSpeech()
+
                 TranslateTextField(
                     fromText = state.fromText,
                     toText = state.toText,
@@ -194,7 +202,7 @@ fun TranslateScreen(
                                     state.toText,
                                     TextToSpeech.QUEUE_FLUSH,
                                     null,
-                                    null
+                                    TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID
                                 )
                             } else {
                                 stop()
