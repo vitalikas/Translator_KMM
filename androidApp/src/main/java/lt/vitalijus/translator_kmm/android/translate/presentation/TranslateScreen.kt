@@ -40,7 +40,7 @@ import lt.vitalijus.translator_kmm.android.translate.presentation.components.Swa
 import lt.vitalijus.translator_kmm.android.translate.presentation.components.TranslateHistoryItem
 import lt.vitalijus.translator_kmm.android.translate.presentation.components.TranslateTextField
 import lt.vitalijus.translator_kmm.android.translate.presentation.components.rememberTextToSpeech
-import lt.vitalijus.translator_kmm.core.domain.util.TranslateError
+import lt.vitalijus.translator_kmm.android.translate.presentation.util.asUiText
 import lt.vitalijus.translator_kmm.translate.presentation.translate.TranslateEvent
 import lt.vitalijus.translator_kmm.translate.presentation.translate.TranslateState
 import java.util.Locale
@@ -53,15 +53,9 @@ fun TranslateScreen(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = state.error) {
-        val message = when (state.error) {
-            TranslateError.SERVICE_UNAVAILABLE -> context.getString(R.string.error_service_unavailable)
-            TranslateError.CLIENT_ERROR -> context.getString(R.string.error_client)
-            TranslateError.SERVER_ERROR -> context.getString(R.string.error_server)
-            TranslateError.UNKNOWN_ERROR -> context.getString(R.string.error_unknown)
-            else -> null
-        }
+        val message = state.error?.asUiText()
         message?.let { errorMessage ->
-            Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, errorMessage.asString(context), Toast.LENGTH_LONG).show()
             onEvent(TranslateEvent.OnErrorSeen)
         }
     }
