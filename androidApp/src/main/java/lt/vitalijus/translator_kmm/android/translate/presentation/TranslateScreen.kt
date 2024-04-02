@@ -144,7 +144,7 @@ fun TranslateScreen(
                             .fillMaxWidth()
                             .padding(top = 16.dp)
                     ) {
-                        val (dropdownStart, swapButton, dropdownEnd) = createRefs()
+                        val (dropdown, swapButton, dropdownReverse) = createRefs()
 
                         LanguageDropdown(
                             language = state.fromLanguage,
@@ -159,7 +159,7 @@ fun TranslateScreen(
                             onSelectLanguage = { language ->
                                 onEvent(TranslateEvent.ChooseFromLanguage(language = language))
                             },
-                            modifier = Modifier.constrainAs(dropdownStart) {
+                            modifier = Modifier.constrainAs(dropdown) {
                                 start.linkTo(parent.start)
                                 top.linkTo(parent.top)
                                 bottom.linkTo(parent.bottom)
@@ -172,8 +172,8 @@ fun TranslateScreen(
                                 stopTts(state.isSpeaking, onEvent, tts)
                             },
                             modifier = Modifier.constrainAs(swapButton) {
-                                start.linkTo(dropdownStart.start)
-                                end.linkTo(dropdownEnd.end)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
                                 top.linkTo(parent.top)
                                 bottom.linkTo(parent.bottom)
                             }
@@ -192,7 +192,7 @@ fun TranslateScreen(
                             onSelectLanguage = { language ->
                                 onEvent(TranslateEvent.ChooseToLanguage(language = language))
                             },
-                            modifier = Modifier.constrainAs(dropdownEnd) {
+                            modifier = Modifier.constrainAs(dropdownReverse) {
                                 end.linkTo(parent.end)
                                 top.linkTo(parent.top)
                                 bottom.linkTo(parent.bottom)
