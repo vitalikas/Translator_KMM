@@ -11,15 +11,17 @@ import lt.vitalijus.translator_kmm.android.core.theme.LightBlue
 
 @Composable
 fun SpeakButton(
-    isSpeak: Boolean,
-    onClick: (isSpeak: Boolean) -> Unit
+    isSpeaking: Boolean,
+    onClick: () -> Unit
 ) {
-
     IconButton(
-        onClick = { onClick(!isSpeak) }
+        onClick = {
+            onClick()
+        }
     ) {
+        val drawableId = if (isSpeaking) R.drawable.stop else R.drawable.speaker
         Icon(
-            imageVector = ImageVector.vectorResource(id = if (!isSpeak) R.drawable.speaker else R.drawable.stop),
+            imageVector = ImageVector.vectorResource(id = drawableId),
             contentDescription = stringResource(id = R.string.play_loud),
             tint = LightBlue
         )

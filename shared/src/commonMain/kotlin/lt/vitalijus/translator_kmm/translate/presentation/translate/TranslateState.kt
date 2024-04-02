@@ -1,7 +1,7 @@
 package lt.vitalijus.translator_kmm.translate.presentation.translate
 
-import lt.vitalijus.translator_kmm.core.presentation.UiLanguage
 import lt.vitalijus.translator_kmm.core.domain.util.TranslateError
+import lt.vitalijus.translator_kmm.core.presentation.UiLanguage
 import lt.vitalijus.translator_kmm.translate.presentation.history.UiHistoryItem
 
 data class TranslateState(
@@ -14,5 +14,6 @@ data class TranslateState(
     val isChoosingToLanguage: Boolean = false,
     val error: TranslateError? = null,
     val history: List<UiHistoryItem> = emptyList(),
-    val isSpeak: Boolean = false
+    val isSpeaking: Boolean = false,
+    val isRefreshing: Boolean = false
 )

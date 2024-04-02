@@ -1,11 +1,7 @@
-@file:OptIn(
-    ExperimentalAnimationApi::class, ExperimentalAnimationApi::class
-)
-
 package lt.vitalijus.translator_kmm.android.translate.presentation.components
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,6 +40,7 @@ import lt.vitalijus.translator_kmm.android.R
 import lt.vitalijus.translator_kmm.android.core.theme.LightBlue
 import lt.vitalijus.translator_kmm.core.presentation.UiLanguage
 
+@SuppressLint("UnusedContentLambdaTargetStateParameter")
 @Composable
 fun TranslateTextField(
     fromText: String,
@@ -55,9 +52,9 @@ fun TranslateTextField(
     onTextChange: (String) -> Unit,
     onCopyClick: (String) -> Unit,
     onCloseClick: () -> Unit,
-    onSpeakerClick: (isSpeak: Boolean) -> Unit,
-    isSpeak: Boolean,
     onTextFieldClick: () -> Unit,
+    onSpeakerClick: () -> Unit,
+    isSpeaking: Boolean,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -93,7 +90,7 @@ fun TranslateTextField(
                         toLanguage = toLanguage,
                         onCopyClick = onCopyClick,
                         onSpeakerClick = onSpeakerClick,
-                        isSpeak = isSpeak
+                        isSpeaking = isSpeaking
                     )
                 }
             }
@@ -181,8 +178,8 @@ private fun ToTextField(
     toText: String,
     toLanguage: UiLanguage,
     onCopyClick: (String) -> Unit,
-    onSpeakerClick: (isSpeak: Boolean) -> Unit,
-    isSpeak: Boolean
+    onSpeakerClick: () -> Unit,
+    isSpeaking: Boolean
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
         LanguageItem(language = toLanguage)
@@ -212,8 +209,8 @@ private fun ToTextField(
                 )
             }
             SpeakButton(
-                isSpeak = isSpeak,
-                onClick = onSpeakerClick
+                onClick = onSpeakerClick,
+                isSpeaking = isSpeaking
             )
         }
     }

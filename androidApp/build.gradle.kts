@@ -8,11 +8,11 @@ plugins {
 
 android {
     namespace = "lt.vitalijus.translator_kmm.android"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         applicationId = "lt.vitalijus.translator_kmm.android"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
     }
@@ -43,7 +43,10 @@ android {
 
 dependencies {
     implementation(project(":shared"))
+
     implementation(libs.androidx.activity.compose)
+
+    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.tooling.preview)
@@ -52,6 +55,7 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.constraintlayout)
+    implementation("androidx.compose.material3:material3")
 
     implementation(libs.coil.compose)
 

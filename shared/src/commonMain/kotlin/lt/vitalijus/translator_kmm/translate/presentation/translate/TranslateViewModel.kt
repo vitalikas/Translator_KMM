@@ -3,6 +3,7 @@ package lt.vitalijus.translator_kmm.translate.presentation.translate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -174,19 +175,43 @@ class TranslateViewModel(
                 translate(state = state.value)
             }
 
-            is TranslateEvent.Speak -> {
-                _state.update {
-                    it.copy(
-                        isSpeak = !it.isSpeak
-                    )
-                }
-            }
-
             is TranslateEvent.ClearText -> {
                 _state.update {
                     it.copy(
 
                     )
+                }
+            }
+
+            is TranslateEvent.StartSpeakingText -> {
+                _state.update {
+                    it.copy(
+                        isSpeaking = true
+                    )
+                }
+            }
+
+            is TranslateEvent.StopSpeakingText -> {
+                _state.update {
+                    it.copy(
+                        isSpeaking = false
+                    )
+                }
+            }
+
+            is TranslateEvent.Refresh -> {
+                _state.update {
+                    it.copy(
+                        isRefreshing = true
+                    )
+                }
+                viewModelScope.launch {
+                    delay(2000) // Simulated long operation (i.e., API request)
+                    _state.update {
+                        it.copy(
+                            isRefreshing = false
+                        )
+                    }
                 }
             }
 
